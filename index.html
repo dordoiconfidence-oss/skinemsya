@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Скинемся">
+<meta name="theme-color" content="#f6f3ee">
+<link rel="apple-touch-icon" href="icon.png"><link rel="icon" href="icon.png">
+<title>Скинемся</title>
+<style>
+:root{--bg:#f6f3ee;--card:#fff;--text:#1d1c1a;--muted:#8a847b;--line:#ebe5dc;--accent:#e2572b;--accentbg:#fde9e1;--green:#1f9d55;--greenbg:#e2f5ea;--red:#d6402f;--redbg:#fde6e3;--chip:#efe9e0;--shadow:0 1px 2px rgba(40,30,20,.06)}
+@media (prefers-color-scheme:dark){:root{--bg:#0d0c0b;--card:#1b1a18;--text:#f2efea;--muted:#9c958b;--line:#2c2a27;--accent:#ff7a4d;--accentbg:#3a1f14;--green:#34d17a;--greenbg:#11301f;--red:#ff6252;--redbg:#3a1714;--chip:#2c2a27;--shadow:none}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.3;-webkit-text-size-adjust:100%}
+body{padding-top:env(safe-area-inset-top);padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+button{font:inherit;color:inherit;border:none;background:none;padding:0;cursor:pointer;text-align:inherit}
+input,textarea{font:inherit}
+main{max-width:640px;margin:0 auto;padding:6px 16px 20px}
+h1{font-size:30px;margin:12px 4px 4px;letter-spacing:-.01em}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;margin:22px 6px 8px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+h2 span{text-transform:none;letter-spacing:0;font-weight:500}
+.sub{color:var(--muted);margin:0 4px 10px;font-size:15px}
+.card{background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+.list{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left;min-height:60px}
+.row:last-child{border-bottom:none}
+button.row:active{background:var(--chip)}
+.grow{flex:1;min-width:0}
+.t{font-weight:600}.s{font-size:14px;color:var(--muted);margin-top:2px}
+.ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amt{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.amt small{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:2px}
+.pos{color:var(--green)}.neg{color:var(--red)}.muted{color:var(--muted)}
+.chev{color:var(--muted);font-size:22px}
+.ico{width:42px;height:42px;border-radius:13px;background:var(--chip);display:flex;align-items:center;justify-content:center;font-size:21px;flex:none}
+.av{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex:none}
+.avs{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.avs .av{width:26px;height:26px;font-size:12px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:14px;background:var(--card);color:var(--accent);font-weight:700;font-size:17px;box-shadow:var(--shadow);text-align:center;padding:0 14px}
+.btn:active{opacity:.75}
+.btn.primary{background:var(--accent);color:#fff;box-shadow:none}
+.btn.green{background:var(--green);color:#fff;box-shadow:none}
+.btn.danger{color:var(--red)}
+.btn.small{width:auto;min-height:38px;font-size:15px;padding:0 12px;border-radius:12px}
+.btns{display:grid;gap:8px;margin-top:12px}.btns.two{grid-template-columns:1fr 1fr}
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom));z-index:20;width:min(608px,calc(100% - 32px));min-height:58px;border-radius:18px;background:var(--accent);color:#fff;font-size:18px;font-weight:800;box-shadow:0 8px 24px rgba(226,87,43,.35);text-align:center}
+.fab:active{transform:translateX(-50%) scale(.98)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--chip);border-radius:12px;padding:3px;margin:12px 0 4px}
+.seg button{min-height:38px;border-radius:10px;font-weight:600;font-size:15px;text-align:center;color:var(--muted)}
+.seg button.on{background:var(--card);color:var(--text);box-shadow:var(--shadow)}
+.hero{display:flex;gap:10px;margin-top:10px}
+.hero .card{flex:1;padding:12px 14px}
+.hero .l{font-size:13px;color:var(--muted)}.hero .v{font-size:22px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.mom{margin-top:18px}
+.momh{display:flex;align-items:flex-start;gap:10px;margin:0 4px 8px}
+.momh .n{font-weight:800;font-size:18px}
+.momh .s{margin-top:1px}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:8px;padding:3px 8px;background:var(--accentbg);color:var(--accent);vertical-align:middle}
+.tag.g{background:var(--greenbg);color:var(--green)}.tag.m{background:var(--chip);color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:26px 18px}
+.empty .e{font-size:42px;margin-bottom:6px}
+.chip-me{display:inline-flex;align-items:center;gap:6px;background:var(--card);border-radius:20px;padding:5px 12px 5px 5px;font-weight:600;font-size:15px;box-shadow:var(--shadow)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.back{color:var(--accent);font-weight:600;font-size:17px;padding:6px 2px}
+.tr{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.tr:last-child{border-bottom:none}
+.tr .ar{color:var(--muted);font-size:16px;flex:none}
+.pair{display:flex;align-items:center;gap:6px;min-width:0}.pair b{min-width:0;font-weight:600;line-height:1.25}.pair .av{width:26px;height:26px;font-size:11px}
+.me{outline:2px solid var(--accent);outline-offset:-2px}
+/* sheet */
+.sheet{position:fixed;inset:0;z-index:50;pointer-events:none}
+.sheet.open{pointer-events:auto}
+.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .2s}
+.sheet.open .backdrop{opacity:1}
+.panel{position:absolute;left:0;right:0;bottom:0;max-height:94vh;max-width:640px;margin:0 auto;background:var(--bg);border-radius:20px 20px 0 0;overflow-y:auto;transform:translateY(100%);transition:transform .25s ease;padding:0 16px calc(24px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+.sheet.open .panel{transform:none}
+.shh{position:sticky;top:0;z-index:2;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:14px 0 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.shh b{font-size:17px}.shh button{color:var(--accent);font-size:17px;min-width:70px}.shh .r{text-align:right;font-weight:700}
+.fl{display:block;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin:16px 4px 6px}
+.field{display:block;width:100%;min-height:50px;border-radius:13px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:0 14px;font-size:17px;outline:none;-webkit-appearance:none;appearance:none}
+.field:focus{border-color:var(--accent)}
+.bigamt{font-size:40px;font-weight:800;text-align:center;min-height:76px;letter-spacing:-.01em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);border:1.5px solid var(--line);border-radius:22px;min-height:42px;padding:0 14px;font-size:16px;display:inline-flex;align-items:center;gap:6px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip .av{width:24px;height:24px;font-size:11px}
+.pl{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.prow{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line);min-height:56px}
+.prow:last-child{border-bottom:none}
+.ck{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;flex:none}
+.ck.on{background:var(--accent);border-color:var(--accent)}
+.prow.off .nm{color:var(--muted)}
+.prow .nm{flex:1;min-width:0;font-weight:600}
+.prow .sh{font-variant-numeric:tabular-nums;font-weight:700;min-width:64px;text-align:right}
+.step{display:flex;align-items:center;gap:4px}
+.step button{width:34px;height:34px;border-radius:10px;background:var(--chip);font-size:20px;font-weight:700;text-align:center}
+.step b{min-width:30px;text-align:center}
+.fix{width:84px;min-height:38px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);text-align:right;padding:0 8px;font-size:16px}
+.hint{font-size:14px;color:var(--muted);margin:8px 4px 0;line-height:1.35}
+.warn{background:var(--redbg);color:var(--red);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;font-weight:600}
+.save{margin-top:20px}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:#1d1c1a;color:#fff;padding:12px 18px;border-radius:14px;font-size:15px;font-weight:600;opacity:0;transition:.25s;z-index:80;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.logo{font-size:44px}
+</style>
+</head>
+<body>
+<main id="main"></main>
+<button class="fab" id="fab" style="display:none" data-act="addExp">+ Расход</button>
+<div class="sheet" id="sheet"><div class="backdrop" data-act="closeSheet"></div><div class="panel" id="panel"></div></div>
+<div class="toast" id="toast"></div>
+<script type="module">
+/* ============ настройки ============ */
+// Тот же бесплатный проект Firebase, что у «Закупа»; поездки лежат в коллекции trips (доступ — по секретной ссылке).
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDA8u20_jsckEIEvlHk6GnZ_JVorvFB5Zs",
+  authDomain: "zakup-dordoi.firebaseapp.com",
+  projectId: "zakup-dordoi",
+  storageBucket: "zakup-dordoi.firebasestorage.app",
+  messagingSenderId: "261884006121",
+  appId: "1:261884006121:web:7152fb8d9e70f8cf6f2a78"
+};
+const FB_VER='11.10.0';
+const DEMO=location.search.includes('demo')||!FIREBASE_CONFIG;
+const CATS=[['food','🍖','Еда'],['drink','🥤','Напитки'],['fuel','⛽','Бензин'],['house','🏠','Жильё'],['fun','🎱','Развлечения'],['taxi','🚕','Транспорт'],['shop','🛒','Магазин'],['other','💸','Другое']];
+const CAT=Object.fromEntries(CATS.map(c=>[c[0],{e:c[1],t:c[2]}]));
+const COLORS=['#e2572b','#2b8a97','#7c3aed','#1f9d55','#d6336c','#c97a06','#2f6fdf','#0f766e','#9a3412','#4b5563','#be185d','#15803d'];
+
+/* ============ утилиты ============ */
+const $=s=>document.querySelector(s),$$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0});
+const som=v=>nf.format(Math.round(v))+' сом';
+const num=v=>{if(v==null)return null;const s=String(v).replace(/\s/g,'').replace(',','.');if(s==='')return null;const n=parseFloat(s);return isFinite(n)?n:null;};
+const rid=(n=16)=>{const a='abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';const r=crypto.getRandomValues(new Uint8Array(n));for(const x of r)s+=a[x%a.length];return s;};
+const uid=()=>Date.now().toString(36)+rid(4);
+const initials=n=>{const p=String(n||'?').trim().split(/\s+/);return ((p[0]||'?')[0]+(p[1]?p[1][0]:'')).toUpperCase();};
+const fmtT=ts=>{const d=new Date(ts);return d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})+', '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});};
+const plural=(n,a,b,c)=>{n=Math.abs(n)%100;const n1=n%10;if(n>10&&n<20)return c;if(n1>1&&n1<5)return b;if(n1===1)return a;return c;};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2000);}
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+
+/* ============ данные: одна поездка = один документ trips/{id} ============ */
+let fb=null,trip=null,tripId=null,unsub=null;
+const DEL={__del:1};
+function setPath(o,path,val){const ks=path.split('.');for(let i=0;i<ks.length-1;i++){if(typeof o[ks[i]]!=='object'||!o[ks[i]])o[ks[i]]={};o=o[ks[i]];}if(val===DEL)delete o[ks.at(-1)];else o[ks.at(-1)]=val;}
+async function initFb(){if(DEMO||fb)return;const base='https://www.gstatic.com/firebasejs/'+FB_VER+'/';
+  const [appM,fsM]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-firestore.js')]);
+  const app=appM.initializeApp(FIREBASE_CONFIG);let db;try{db=fsM.initializeFirestore(app,{localCache:fsM.persistentLocalCache({tabManager:fsM.persistentMultipleTabManager()})});}catch(e){db=fsM.getFirestore(app);}
+  fb=Object.assign({db},fsM);}
+const T={
+  async create(id,data){if(DEMO){const all=LS.get('sk_demo',{});all[id]=data;LS.set('sk_demo',all);return;}await initFb();await fb.setDoc(fb.doc(fb.db,'trips',id),data);},
+  update(patch){if(!tripId)return;patch=Object.assign({},patch,{updated:Date.now()});
+    if(DEMO){const all=LS.get('sk_demo',{});const d=all[tripId];if(!d)return;for(const k in patch)setPath(d,k,patch[k]);LS.set('sk_demo',all);trip=d;render();return;}
+    const p={};for(const k in patch)p[k]=patch[k]===DEL?fb.deleteField():patch[k];fb.updateDoc(fb.doc(fb.db,'trips',tripId),p).catch(e=>{console.error(e);toast('Не сохранилось: '+(e.code==='permission-denied'?'нет доступа':'нет связи — повторите'));});},
+  async open(id){if(unsub){unsub();unsub=null;}tripId=id;trip=null;
+    if(DEMO){trip=LS.get('sk_demo',{})[id]||null;onTrip();return;}
+    try{await initFb();}catch(e){$('#main').innerHTML='<div class="empty" style="padding-top:80px"><div class="e">📡</div>Нет связи. Проверьте интернет и откройте снова.</div>';return;}
+    unsub=fb.onSnapshot(fb.doc(fb.db,'trips',id),s=>{if(tripId!==id)return;trip=s.exists()?s.data():null;if(!trip&&s.metadata.fromCache)return;onTrip();},e=>{console.error(e);$('#main').innerHTML='<div class="empty" style="padding-top:80px"><div class="e">🔒</div>Не удалось открыть поездку.<br>Проверьте ссылку.</div>';});}
+};
+function onTrip(){if(!trip){$('#main').innerHTML='<div class="top"><button class="back" data-act="home">‹ Мои поездки</button></div><div class="empty" style="padding-top:60px"><div class="e">🤷</div>Поездка не найдена. Возможно, ссылка неполная.</div>';$('#fab').style.display='none';return;}
+  const my=LS.get('sk_trips',{});my[tripId]={name:trip.name,seen:Date.now()};LS.set('sk_trips',my);render();}
+
+/* ============ расчёты ============ */
+const members=()=>Object.entries(trip.members||{}).map(([id,m])=>Object.assign({id},m)).sort((a,b)=>(a.ord||0)-(b.ord||0));
+const mem=id=>(trip.members||{})[id]||{name:'?',color:'#999'};
+const moments=()=>Object.entries(trip.moments||{}).map(([id,m])=>Object.assign({id},m)).sort((a,b)=>(a.ord||0)-(b.ord||0));
+const expenses=()=>Object.entries(trip.expenses||{}).map(([id,e])=>Object.assign({id},e)).sort((a,b)=>(b.created||0)-(a.created||0));
+const transfers=()=>Object.entries(trip.transfers||{}).map(([id,t])=>Object.assign({id},t)).sort((a,b)=>(b.created||0)-(a.created||0));
+// доли одного расхода: поровну / по долям (×2) / часть суммами, остаток поровну
+function shares(e){const ids=(e.members||[]).filter(id=>trip.members&&trip.members[id]);const out={};const amt=+e.amount||0;if(!ids.length)return out;
+  const mode=e.mode||'eq',w=e.w||{},fx=e.fix||{};
+  if(mode==='w'){const tot=ids.reduce((s,id)=>s+(+w[id]||1),0);ids.forEach(id=>out[id]=amt*(+w[id]||1)/tot);}
+  else if(mode==='fix'){const fixed=ids.filter(id=>fx[id]!=null&&fx[id]!=='');const rest=ids.filter(id=>!fixed.includes(id));const fsum=fixed.reduce((s,id)=>s+(+fx[id]||0),0);fixed.forEach(id=>out[id]=+fx[id]||0);const r=amt-fsum;rest.forEach(id=>out[id]=rest.length?r/rest.length:0);if(!rest.length&&Math.abs(r)>0.5){/* излишек — поровну на всех */ids.forEach(id=>out[id]+=r/ids.length);}}
+  else ids.forEach(id=>out[id]=amt/ids.length);
+  return out;}
+function balances(){const b={},paid={},owe={};members().forEach(m=>{b[m.id]=0;paid[m.id]=0;owe[m.id]=0;});
+  expenses().forEach(e=>{const a=+e.amount||0;if(b[e.payer]!=null){b[e.payer]+=a;paid[e.payer]+=a;}const sh=shares(e);for(const id in sh){if(b[id]!=null){b[id]-=sh[id];owe[id]+=sh[id];}}});
+  transfers().forEach(t=>{if(b[t.from]!=null)b[t.from]+=+t.amount||0;if(b[t.to]!=null)b[t.to]-=+t.amount||0;});
+  return {b,paid,owe};}
+// минимум переводов: самый большой должник платит самому большому получателю
+function settle(){const {b}=balances();const deb=[],cre=[];for(const id in b){const v=Math.round(b[id]);if(v<=-1)deb.push({id,v:-v});else if(v>=1)cre.push({id,v});}
+  deb.sort((x,y)=>y.v-x.v);cre.sort((x,y)=>y.v-x.v);const out=[];let i=0,j=0;
+  while(i<deb.length&&j<cre.length){const a=Math.min(deb[i].v,cre[j].v);if(a>=1)out.push({from:deb[i].id,to:cre[j].id,amount:a});deb[i].v-=a;cre[j].v-=a;if(deb[i].v<1)i++;if(cre[j].v<1)j++;}
+  return out;}
+const total=()=>expenses().reduce((s,e)=>s+(+e.amount||0),0);
+const meId=()=>LS.get('sk_me',{})[tripId]||null;
+const setMe=id=>{const m=LS.get('sk_me',{});m[tripId]=id;LS.set('sk_me',m);};
+
+/* ============ экраны ============ */
+let tab='exp',onlyMine=false;
+const avatar=(id,cls)=>{const m=mem(id);return '<span class="av '+(cls||'')+'" style="background:'+(m.color||'#999')+'">'+esc(initials(m.name))+'</span>';};
+function route(){const id=new URLSearchParams(location.search).get('t')||location.hash.replace('#','');
+  if(id&&/^[A-Za-z0-9]{8,}$/.test(id)){if(id!==tripId)T.open(id);else render();}else{tripId=null;trip=null;if(unsub){unsub();unsub=null;}renderHome();}}
+function go(id){const u=new URL(location.href);u.hash=id?id:'';u.searchParams.delete('t');history.pushState(null,'',u.pathname+u.search+(id?'#'+id:''));route();}
+function renderHome(){$('#fab').style.display='none';const my=Object.entries(LS.get('sk_trips',{})).sort((a,b)=>(b[1].seen||0)-(a[1].seen||0));
+  $('#main').innerHTML='<div style="text-align:center;margin-top:26px"><div class="logo">🤝</div><h1 style="margin-top:4px">Скинемся</h1><p class="sub">Общие расходы с друзьями: кто сколько потратил и кто кому должен</p></div>'+
+    '<div class="btns"><button class="btn primary" data-act="newTrip">+ Новая поездка или встреча</button></div>'+
+    (my.length?'<h2>Мои поездки</h2><div class="list">'+my.map(([id,t])=>'<button class="row" data-act="openTrip" data-id="'+id+'"><div class="ico">🧳</div><div class="grow"><div class="t ell">'+esc(t.name||'Поездка')+'</div><div class="s">открывали '+fmtT(t.seen||Date.now())+'</div></div><span class="chev">›</span></button>').join('')+'</div>':
+      '<div class="card" style="margin-top:18px"><div class="t" style="margin-bottom:8px">Как это работает</div><div class="s" style="font-size:15px;line-height:1.45">1. Создайте поездку и впишите друзей.<br>2. Отправьте ссылку в общий чат — каждый откроет на своём телефоне, без регистрации.<br>3. Кто платит — записывает расход и отмечает, на кого он делится.<br>4. В конце «Итог» покажет, кто кому сколько перевести.</div></div>')+
+    (DEMO?'<p class="hint" style="text-align:center">Демо-режим: данные только на этом телефоне</p>':'');}
+function render(){if(!trip)return;const ms=members(),me=meId();
+  if(ms.length&&!me&&!$('#sheet').classList.contains('open')){pushSheet(whoAmI());}
+  $('#fab').style.display=tab==='exp'&&ms.length?'':'none';
+  let h='<div class="top"><button class="back" data-act="home">‹ Поездки</button>'+(me&&trip.members[me]?'<button class="chip-me" data-act="whoAmI">'+avatar(me)+'Я: '+esc(mem(me).name)+'</button>':'')+'</div>';
+  h+='<h1>'+esc(trip.name)+'</h1>';
+  const {b}=balances();const myB=me&&b[me]!=null?Math.round(b[me]):null;
+  h+='<div class="hero"><div class="card"><div class="l">Всего потратили</div><div class="v">'+som(total())+'</div></div><div class="card"><div class="l">'+(myB==null?'Участников':myB<0?'Ты должен':myB>0?'Тебе должны':'Твой баланс')+'</div><div class="v '+(myB<0?'neg':myB>0?'pos':'')+'">'+(myB==null?ms.length:myB===0?'0':som(Math.abs(myB)))+'</div></div></div>';
+  h+='<div class="seg"><button class="'+(tab==='exp'?'on':'')+'" data-act="tab" data-v="exp">Расходы</button><button class="'+(tab==='sum'?'on':'')+'" data-act="tab" data-v="sum">Итог</button><button class="'+(tab==='ppl'?'on':'')+'" data-act="tab" data-v="ppl">Участники</button></div>';
+  if(tab==='exp')h+=renderExp();else if(tab==='sum')h+=renderSum();else h+=renderPpl();
+  $('#main').innerHTML=h;}
+function expRow(e){const c=CAT[e.cat]||CAT.other,me=meId(),sh=shares(e),n=(e.members||[]).length;const mine=me&&sh[me]!=null;
+  return '<button class="row" data-act="editExp" data-id="'+e.id+'"><div class="ico">'+c.e+'</div><div class="grow"><div class="t ell">'+esc(e.title||c.t)+'</div><div class="s ell">'+esc(mem(e.payer).name)+' заплатил · на '+n+' '+plural(n,'человека','человек','человек')+(e.mode==='w'?' · по долям':e.mode==='fix'?' · суммами':'')+'</div></div><div class="amt">'+som(e.amount)+(mine?'<small>моя доля '+nf.format(Math.round(sh[me]))+'</small>':'')+'</div></button>';}
+function renderExp(){const ms=members();if(!ms.length)return '<div class="card empty"><div class="e">👥</div>Сначала добавьте участников.<div class="btns"><button class="btn primary" data-act="tab" data-v="ppl">Добавить друзей</button></div></div>';
+  const me=meId(),all=expenses(),mo=moments();
+  const list=onlyMine&&me?all.filter(e=>e.payer===me||(e.members||[]).includes(me)):all;
+  let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px"><button class="btn small" data-act="newMoment">👥 Состав изменился</button>'+(me?'<button class="btn small" data-act="toggleMine" style="'+(onlyMine?'background:var(--accent);color:#fff':'')+'">'+(onlyMine?'✓ ':'')+'Только где я</button>':'')+'</div>';
+  if(!all.length)h+='<div class="card empty" style="margin-top:14px"><div class="e">🧾</div>Расходов пока нет.<br>Кто первым заплатил — жмите «+ Расход» внизу.</div>';
+  // группируем по этапам (моментам), самый свежий этап — сверху
+  const groups=mo.slice().reverse().map(m=>({m,items:list.filter(e=>e.moment===m.id)}));
+  const loose=list.filter(e=>!e.moment||!trip.moments||!trip.moments[e.moment]);if(loose.length)groups.push({m:null,items:loose});
+  const cur=curMoment();
+  groups.forEach(g=>{if(!g.m&&!g.items.length)return;const sum=g.items.reduce((s,e)=>s+(+e.amount||0),0);const mids=g.m?(g.m.members||[]):[];
+    if(onlyMine&&me&&g.m&&!mids.includes(me)&&!g.items.length)return;
+    h+='<div class="mom"><div class="momh"><div class="grow"><div class="n">'+esc(g.m?g.m.name:'Без этапа')+(g.m&&cur&&g.m.id===cur.id?' <span class="tag g">сейчас</span>':'')+'</div><div class="s">'+(g.m?mids.length+' '+plural(mids.length,'человек','человека','человек')+' · ':'')+som(sum)+'</div>'+(g.m?'<div class="avs">'+mids.map(id=>avatar(id)).join('')+'</div>':'')+'</div>'+(g.m?'<button class="btn small" data-act="editMoment" data-id="'+g.m.id+'">Изменить</button>':'')+'</div>'+
+      (g.items.length?'<div class="list">'+g.items.map(expRow).join('')+'</div>':'<div class="card empty" style="padding:16px">Пока без расходов</div>')+'</div>';});
+  return h;}
+function renderSum(){const ms=members(),me=meId();if(!ms.length)return '<div class="card empty">Добавьте участников</div>';
+  const {b,paid,owe}=balances();const st=settle();
+  let h='<h2>Кто кому переводит<span>'+(st.length?st.length+' '+plural(st.length,'перевод','перевода','переводов'):'')+'</span></h2>';
+  if(!expenses().length)h+='<div class="card empty">Пока нечего делить</div>';
+  else if(!st.length)h+='<div class="card empty"><div class="e">🎉</div>Все в расчёте!</div>';
+  else h+='<div class="list">'+st.map((s,k)=>'<div class="tr'+(me&&(s.from===me||s.to===me)?' me':'')+'"><div class="grow"><div class="pair">'+avatar(s.from)+'<b>'+esc(mem(s.from).name)+' <span class="ar">→</span> '+esc(mem(s.to).name)+'</b></div><div class="s" style="margin-top:6px">'+(s.from===me?'это ты переводишь':s.to===me?'это тебе переводят':'&nbsp;')+'</div></div><div style="text-align:right"><div class="amt" style="font-size:18px">'+som(s.amount)+'</div><button class="btn small green" data-act="markPaid" data-k="'+k+'" style="margin-top:6px;min-height:32px;font-size:14px">Оплачено</button></div></div>').join('')+'</div>';
+  h+='<div class="btns two"><button class="btn" data-act="shareSum">💬 Отправить итог</button><button class="btn" data-act="addTransfer">↔️ Перевод вручную</button></div>';
+  h+='<h2>По каждому<span>потратил / доля / баланс</span></h2><div class="list">'+ms.map(m=>{const v=Math.round(b[m.id]||0);return '<button class="row'+(m.id===me?' me':'')+'" data-act="personInfo" data-id="'+m.id+'">'+avatar(m.id)+'<div class="grow"><div class="t ell">'+esc(m.name)+'</div><div class="s">потратил '+nf.format(Math.round(paid[m.id]))+' · доля '+nf.format(Math.round(owe[m.id]))+'</div></div><div class="amt '+(v<0?'neg':v>0?'pos':'')+'">'+(v>0?'+':v<0?'−':'')+nf.format(Math.abs(v))+'<small>'+(v<0?'должен':v>0?'ему должны':'в расчёте')+'</small></div></button>';}).join('')+'</div>';
+  const tr=transfers();if(tr.length)h+='<h2>Уже перевели</h2><div class="list">'+tr.map(t=>'<button class="row" data-act="delTransfer" data-id="'+t.id+'"><div class="ico">✅</div><div class="grow"><div class="t ell">'+esc(mem(t.from).name)+' → '+esc(mem(t.to).name)+'</div><div class="s">'+fmtT(t.created)+'</div></div><div class="amt">'+som(t.amount)+'</div></button>').join('')+'</div><p class="hint">Нажмите на перевод, чтобы отменить его.</p>';
+  return h;}
+function renderPpl(){const ms=members(),me=meId();
+  let h='<h2>Участники<span>'+ms.length+'</span></h2>'+(ms.length?'<div class="list">'+ms.map(m=>'<button class="row" data-act="editMember" data-id="'+m.id+'">'+avatar(m.id)+'<div class="grow"><div class="t">'+esc(m.name)+(m.id===me?' <span class="tag">это я</span>':'')+'</div></div><span class="chev">›</span></button>').join('')+'</div>':'');
+  h+='<div class="card" style="margin-top:12px;padding:12px"><div style="display:flex;gap:8px"><input class="field" id="newName" placeholder="Имя друга" autocapitalize="words" autocomplete="off" enterkeyhint="done"><button class="btn primary" style="width:auto;min-width:56px" data-act="addMember">+</button></div><div class="hint">Можно сразу несколько через запятую: Асан, Бека, Нурс</div></div>';
+  h+='<h2>Ссылка для друзей</h2><div class="card"><div class="s" style="font-size:15px;margin:0 0 10px">Отправьте ссылку в общий чат — каждый откроет поездку на своём телефоне, выберет себя и сможет добавлять расходы. Регистрация не нужна.</div><button class="btn primary" data-act="shareLink">🔗 Отправить ссылку</button></div>';
+  h+='<h2>Поездка</h2><div class="list"><button class="row" data-act="renameTrip"><div class="ico">✏️</div><div class="grow"><div class="t">Название</div><div class="s ell">'+esc(trip.name)+'</div></div><span class="chev">›</span></button><button class="row" data-act="forgetTrip"><div class="ico">🗂</div><div class="grow"><div class="t">Убрать из моего списка</div><div class="s">У друзей поездка останется</div></div></button></div>';
+  return h;}
+
+/* ============ шторки ============ */
+const stack=[];let curSave=null,curOpen=null;
+function pushSheet(fn){stack.push(fn);drawSheet();}
+function popSheet(){stack.pop();if(stack.length)drawSheet();else closeSheet();}
+function closeSheet(){stack.length=0;if(document.activeElement)document.activeElement.blur();$('#sheet').classList.remove('open');curSave=null;render();}
+function drawSheet(){const cfg=stack[stack.length-1]();if(!cfg){popSheet();return;}
+  $('#panel').innerHTML='<div class="shh"><button data-act="'+(stack.length>1?'backSheet':'closeSheet')+'">'+(cfg.noCancel?'':(stack.length>1?'‹ Назад':'Отмена'))+'</button><b>'+esc(cfg.title)+'</b>'+(cfg.onSave?'<button class="r" data-act="sheetSave">'+(cfg.saveLabel||'Готово')+'</button>':'<span style="min-width:70px"></span>')+'</div>'+cfg.body;
+  curSave=cfg.onSave?()=>{if(cfg.onSave()!==false)popSheet();}:null;$('#sheet').classList.add('open');$('#panel').scrollTop=0;if(cfg.onOpen)cfg.onOpen();}
+
+function whoAmI(){return ()=>({title:'Кто ты?',noCancel:!meId(),body:'<p class="hint" style="margin-top:6px">Выберите себя — так приложение покажет, сколько должен именно ты. Выбор запоминается на этом телефоне.</p><div class="list" style="margin-top:10px">'+members().map(m=>'<button class="row" data-act="pickMe" data-id="'+m.id+'">'+avatar(m.id)+'<div class="grow t">'+esc(m.name)+'</div>'+(m.id===meId()?'<span class="tag">✓</span>':'')+'</button>').join('')+'</div><div class="card" style="margin-top:12px;padding:12px"><div class="s" style="margin:0 0 8px">Меня нет в списке:</div><div style="display:flex;gap:8px"><input class="field" id="meName" placeholder="Моё имя" autocapitalize="words" autocomplete="off"><button class="btn primary" style="width:auto;min-width:56px" data-act="addMe">+</button></div></div>'});}
+function newTripForm(){return ()=>({title:'Новая поездка',saveLabel:'Создать',body:
+  '<label class="fl">Название</label><input class="field" id="tn" placeholder="Иссык-Куль, бильярд в пятницу…" autocapitalize="sentences" autocomplete="off">'+
+  '<label class="fl">Друзья</label><textarea class="field" id="tm" style="min-height:96px;padding:12px 14px" placeholder="Асан, Бека, Нурс, Эржигит…" autocapitalize="words"></textarea><div class="hint">Через запятую или каждого с новой строки. Себя тоже впишите. Потом можно добавить ещё.</div>'+
+  '<button class="btn primary save" data-act="sheetSave">Создать</button>',
+  onOpen:()=>setTimeout(()=>$('#tn').focus(),250),
+  onSave:()=>{const name=$('#tn').value.trim()||'Поездка';const names=$('#tm').value.split(/[,\n;]+/).map(s=>s.trim()).filter(Boolean);
+    const id=rid(18),mem_={};names.forEach((n,i)=>mem_['m'+uid()+i]={name:n,color:COLORS[i%COLORS.length],ord:i});
+    const mids=Object.keys(mem_);const mom={};if(mids.length)mom['s'+uid()]={name:'Все вместе',members:mids,ord:1,created:Date.now()};
+    T.create(id,{name,created:Date.now(),members:mem_,moments:mom,expenses:{},transfers:{},updated:Date.now()}).then(()=>{tab=mids.length?'exp':'ppl';go(id);setTimeout(()=>toast('Готово! Отправьте друзьям ссылку'),400);}).catch(e=>alert('Не удалось создать: '+(e.code==='permission-denied'?'нет доступа к базе (проверьте правила Firebase)':e.message)));
+    stack.length=0;$('#sheet').classList.remove('open');return false;}});}
+function curMoment(){const mo=moments();const id=trip.cur;return mo.find(m=>m.id===id)||mo[mo.length-1]||null;}
+function momentForm(mid){return ()=>{const m=mid?(trip.moments||{})[mid]:null;const cur=curMoment();const sel=new Set(m?m.members:(cur?cur.members:members().map(x=>x.id)));
+  const n=moments().length+1;
+  return {title:m?'Этап':'Состав изменился',saveLabel:'Готово',body:
+    (m?'':'<p class="hint" style="margin-top:6px">Новый этап — когда кто-то приехал или уехал. Новые расходы будут делиться только между теми, кто отмечен.</p>')+
+    '<label class="fl">Название этапа</label><input class="field" id="mn" value="'+esc(m?m.name:'')+'" placeholder="'+(n===2?'Например: Дорога, Все приехали…':'Этап '+n)+'" autocomplete="off" autocapitalize="sentences">'+
+    '<label class="fl">Кто сейчас вместе</label><div class="pl" id="mlist">'+members().map(x=>'<button class="prow'+(sel.has(x.id)?'':' off')+'" data-act="togM" data-id="'+x.id+'"><span class="ck'+(sel.has(x.id)?' on':'')+'">'+(sel.has(x.id)?'✓':'')+'</span>'+avatar(x.id)+'<span class="nm">'+esc(x.name)+'</span></button>').join('')+'</div>'+
+    '<div class="btns two"><button class="btn small" style="width:100%" data-act="togAllM" data-v="1">Все</button><button class="btn small" style="width:100%" data-act="togAllM" data-v="0">Никого</button></div>'+
+    (m?'<p class="hint">Изменение состава этапа пересчитает расходы этапа, где отмечены все его участники.</p>':'')+
+    '<button class="btn primary save" data-act="sheetSave">Сохранить</button>'+(m&&moments().length>1?'<div class="btns"><button class="btn danger" data-act="delMoment" data-id="'+mid+'">Удалить этап</button></div>':''),
+    onSave:()=>{const ids=$$('#mlist .prow').filter(r=>!r.classList.contains('off')).map(r=>r.dataset.id);if(!ids.length){toast('Отметьте хотя бы одного');return false;}
+      const name=$('#mn').value.trim()||(m?m.name:'Этап '+n);
+      if(m){const old=m.members||[];const patch={['moments.'+mid+'.members']:ids,['moments.'+mid+'.name']:name};
+        // расходы, где были отмечены ровно все участники этапа, следуют за новым составом
+        expenses().filter(e=>e.moment===mid&&(e.mode||'eq')==='eq'&&sameSet(e.members||[],old)).forEach(e=>patch['expenses.'+e.id+'.members']=ids);T.update(patch);}
+      else{const id='s'+uid();T.update({['moments.'+id]:{name,members:ids,ord:Date.now(),created:Date.now()},cur:id});toast('Новый этап: '+name);}}};};}
+const sameSet=(a,b)=>a.length===b.length&&a.every(x=>b.includes(x));
+let ed=null; // редактируемый расход
+function expForm(eid){return ()=>{const e=eid?(trip.expenses||{})[eid]:null;const me=meId();const cur=curMoment();
+  if(!ed||ed.id!==(eid||'new'))ed={id:eid||'new',amount:e?e.amount:null,title:e?e.title:'',cat:e?e.cat:'food',payer:e?e.payer:(me||members()[0].id),moment:e?e.moment:(cur?cur.id:null),members:new Set(e?e.members:(cur?cur.members:members().map(m=>m.id))),mode:e?e.mode||'eq':'eq',w:Object.assign({},e&&e.w||{}),fix:Object.assign({},e&&e.fix||{})};
+  const mo=moments();
+  return {title:e?'Расход':'Новый расход',saveLabel:'Готово',body:
+    '<input class="field bigamt" id="ea" inputmode="decimal" placeholder="0" autocomplete="off" value="'+(ed.amount!=null?ed.amount:'')+'"><div class="hint" style="text-align:center;margin-top:4px">сом</div>'+
+    '<label class="fl">За что</label><div class="chips" id="ecat">'+CATS.map(c=>'<button class="chip'+(ed.cat===c[0]?' on':'')+'" data-act="pickCat" data-v="'+c[0]+'">'+c[1]+' '+c[2]+'</button>').join('')+'</div>'+
+    '<input class="field" id="et" style="margin-top:8px" placeholder="Подробнее (необязательно): шашлык, пиво, заправка…" value="'+esc(ed.title||'')+'" autocomplete="off" autocapitalize="sentences">'+
+    '<label class="fl">Кто заплатил</label><div class="chips" id="epay">'+members().map(m=>'<button class="chip'+(ed.payer===m.id?' on':'')+'" data-act="pickPayer" data-id="'+m.id+'">'+avatar(m.id)+esc(m.name)+'</button>').join('')+'</div>'+
+    (mo.length>1?'<label class="fl">Этап</label><div class="chips" id="emom">'+mo.map(m=>'<button class="chip'+(ed.moment===m.id?' on':'')+'" data-act="pickMom" data-id="'+m.id+'">'+esc(m.name)+' · '+(m.members||[]).length+'</button>').join('')+'</div>':'')+
+    '<label class="fl">На кого делим</label><div class="chips" style="margin-bottom:8px" id="emode">'+[['eq','Поровну'],['w','По долям'],['fix','Часть суммами']].map(x=>'<button class="chip'+(ed.mode===x[0]?' on':'')+'" data-act="pickMode" data-v="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>'+
+    '<div class="pl" id="eparts"></div><div id="ewarn"></div><div class="hint" id="ehint"></div>'+
+    '<button class="btn primary save" data-act="sheetSave">Сохранить</button>'+(e?'<div class="btns"><button class="btn danger" data-act="delExp" data-id="'+eid+'">Удалить расход</button></div><p class="hint" style="text-align:center">Добавлено '+fmtT(e.created)+(e.by&&trip.members[e.by]?' · '+esc(mem(e.by).name):'')+'</p>':''),
+    onOpen:()=>{drawParts();$('#ea').addEventListener('input',ev=>{ev.target.value=ev.target.value.replace(/[^\d.,\s]/g,'');ed.amount=num(ev.target.value);drawParts();});$('#et').addEventListener('input',ev=>ed.title=ev.target.value);if(!e)setTimeout(()=>$('#ea').focus(),250);},
+    onSave:()=>{const amount=num($('#ea').value);if(!amount||amount<=0){$('#ea').focus();toast('Введите сумму');return false;}
+      const ids=members().map(m=>m.id).filter(id=>ed.members.has(id));if(!ids.length){toast('Отметьте, на кого делим');return false;}
+      const rec={amount,title:$('#et').value.trim(),cat:ed.cat,payer:ed.payer,moment:ed.moment||null,members:ids,mode:ed.mode,w:{},fix:{}};
+      if(ed.mode==='w')ids.forEach(id=>{if((+ed.w[id]||1)!==1)rec.w[id]=+ed.w[id];});
+      if(ed.mode==='fix'){ids.forEach(id=>{if(ed.fix[id]!=null&&ed.fix[id]!=='')rec.fix[id]=+ed.fix[id];});const fs=Object.values(rec.fix).reduce((a,b)=>a+b,0);if(fs>amount+0.5){toast('Суммы больше, чем весь расход');return false;}}
+      if(e)T.update({['expenses.'+eid]:Object.assign({},e,rec,{edited:Date.now()})});else T.update({['expenses.'+uid()]:Object.assign(rec,{created:Date.now(),by:me||''})});
+      ed=null;toast(e?'Сохранено':'Расход добавлен');}};};}
+function drawParts(){const box=$('#eparts');if(!box||!ed)return;const amt=ed.amount||0;const ids=members().map(m=>m.id);
+  const e={amount:amt,members:ids.filter(id=>ed.members.has(id)),mode:ed.mode,w:ed.w,fix:ed.fix};const sh=shares(e);
+  box.innerHTML=members().map(m=>{const on=ed.members.has(m.id);return '<div class="prow'+(on?'':' off')+'"><button class="ck'+(on?' on':'')+'" data-act="togP" data-id="'+m.id+'">'+(on?'✓':'')+'</button>'+avatar(m.id)+'<button class="nm" data-act="togP" data-id="'+m.id+'" style="text-align:left">'+esc(m.name)+'</button>'+
+    (on&&ed.mode==='w'?'<div class="step"><button data-act="wMinus" data-id="'+m.id+'">−</button><b>×'+(+ed.w[m.id]||1)+'</b><button data-act="wPlus" data-id="'+m.id+'">+</button></div>':'')+
+    (on&&ed.mode==='fix'?'<input class="fix" data-fix="'+m.id+'" inputmode="decimal" placeholder="поровну" value="'+(ed.fix[m.id]!=null?ed.fix[m.id]:'')+'">':'')+
+    '<span class="sh">'+(on&&amt?nf.format(Math.round(sh[m.id]||0)):'')+'</span></div>';}).join('');
+  $$('#eparts .fix').forEach(inp=>inp.addEventListener('change',()=>{const v=num(inp.value);if(v==null)delete ed.fix[inp.dataset.fix];else ed.fix[inp.dataset.fix]=v;drawParts();}));
+  const n=e.members.length;let warn='';
+  if(ed.mode==='fix'){const fs=Object.entries(ed.fix).filter(([id])=>ed.members.has(id)).reduce((a,[,v])=>a+(+v||0),0);if(fs>amt+0.5)warn='Указанные суммы ('+nf.format(fs)+') больше всего расхода';}
+  $('#ewarn').innerHTML=warn?'<div class="warn">'+warn+'</div>':'';
+  $('#ehint').textContent=ed.mode==='eq'?(n?(amt?'По '+nf.format(Math.round(amt/n))+' сом на каждого из '+n:'Отмечено '+n):'Отметьте, кто участвует'):ed.mode==='w'?'×2 — платит за двоих (например, с девушкой или с ребёнком)':'Впишите сумму тем, кто брал отдельно; остаток делится поровну на остальных отмеченных';}
+function memberForm(id){return ()=>{const m=trip.members[id];if(!m)return null;const used=expenses().some(e=>e.payer===id||(e.members||[]).includes(id))||transfers().some(t=>t.from===id||t.to===id);
+  return {title:'Участник',saveLabel:'Готово',body:'<label class="fl">Имя</label><input class="field" id="mnm" value="'+esc(m.name)+'" autocapitalize="words">'+
+    '<div class="btns"><button class="btn" data-act="pickMe" data-id="'+id+'">Это я</button>'+(used?'':'<button class="btn danger" data-act="delMember" data-id="'+id+'">Удалить</button>')+'</div>'+(used?'<p class="hint">Удалить нельзя — у участника есть расходы. Можно только переименовать.</p>':''),
+    onSave:()=>{const n=$('#mnm').value.trim();if(n)T.update({['members.'+id+'.name']:n});}};};}
+function personInfo(id){return ()=>{const m=mem(id);const rows=[];expenses().forEach(e=>{const sh=shares(e);const p=e.payer===id;if(p||sh[id]!=null)rows.push({e,p,s:sh[id]||0});});
+  const {b,paid,owe}=balances();const v=Math.round(b[id]||0);
+  return {title:m.name,body:'<div class="hero" style="margin-top:4px"><div class="card"><div class="l">Потратил</div><div class="v">'+nf.format(Math.round(paid[id]))+'</div></div><div class="card"><div class="l">Его доля</div><div class="v">'+nf.format(Math.round(owe[id]))+'</div></div></div>'+
+    '<div class="card '+(v<0?'neg':v>0?'pos':'')+'" style="margin-top:10px;text-align:center;font-weight:700">'+(v<0?'Должен '+som(-v):v>0?'Ему должны '+som(v):'В расчёте')+'</div>'+
+    '<h2>Расходы с его участием</h2><div class="list">'+(rows.length?rows.map(r=>{const c=CAT[r.e.cat]||CAT.other;return '<div class="row"><div class="ico">'+c.e+'</div><div class="grow"><div class="t ell">'+esc(r.e.title||c.t)+'</div><div class="s">'+(r.p?'заплатил '+som(r.e.amount):esc(mem(r.e.payer).name)+' заплатил '+nf.format(r.e.amount))+'</div></div><div class="amt">'+(r.s?nf.format(Math.round(r.s)):'—')+'<small>доля</small></div></div>';}).join(''):'<div class="empty">Нет расходов</div>')+'</div>'};};}
+function transferForm(){return ()=>{const ms=members();let from=meId()||ms[0].id,to=(ms.find(m=>m.id!==from)||ms[0]).id;
+  return {title:'Перевод',saveLabel:'Готово',body:'<p class="hint" style="margin-top:6px">Если кто-то уже вернул деньги другому — запишите, и итог пересчитается.</p><input class="field bigamt" id="ta" inputmode="decimal" placeholder="0" style="margin-top:10px">'+
+    '<label class="fl">Кто отдал</label><div class="chips" id="tf">'+ms.map(m=>'<button class="chip'+(m.id===from?' on':'')+'" data-act="pickTf" data-id="'+m.id+'">'+esc(m.name)+'</button>').join('')+'</div>'+
+    '<label class="fl">Кому</label><div class="chips" id="tt">'+ms.map(m=>'<button class="chip'+(m.id===to?' on':'')+'" data-act="pickTt" data-id="'+m.id+'">'+esc(m.name)+'</button>').join('')+'</div><button class="btn primary save" data-act="sheetSave">Сохранить</button>',
+    onSave:()=>{const a=num($('#ta').value);const f=($('#tf .chip.on')||{}).dataset,t=($('#tt .chip.on')||{}).dataset;if(!a||!f||!t){toast('Введите сумму');return false;}if(f.id===t.id){toast('Выберите разных людей');return false;}
+      T.update({['transfers.'+uid()]:{from:f.id,to:t.id,amount:a,created:Date.now(),by:meId()||''}});toast('Перевод записан');}};};}
+
+/* ============ действия ============ */
+function share(text,url){(async()=>{try{if(navigator.share){await navigator.share(url?{title:trip.name,text,url}:{text});return;}}catch(e){if(e.name==='AbortError')return;}
+  try{await navigator.clipboard.writeText(url?text+'\n'+url:text);toast('Скопировано — вставьте в чат');}catch(e){prompt('Скопируйте:',url?text+'\n'+url:text);}})();}
+const tripUrl=()=>location.origin+location.pathname+'#'+tripId;
+function addNames(str){const names=str.split(/[,\n;]+/).map(s=>s.trim()).filter(Boolean);if(!names.length)return [];const base=members().length;const patch={},ids=[];
+  names.forEach((n,i)=>{const id='m'+uid()+i;ids.push(id);patch['members.'+id]={name:n,color:COLORS[(base+i)%COLORS.length],ord:base+i};});
+  if(!moments().length){patch['moments.s'+uid()]={name:'Все вместе',members:members().map(m=>m.id).concat(ids),ord:1,created:Date.now()};}
+  T.update(patch);return ids;}
+const A={
+  home:()=>go(null),openTrip:d=>{tab='exp';go(d.id);},newTrip:()=>pushSheet(newTripForm()),
+  closeSheet:()=>{ed=null;closeSheet();},backSheet:()=>popSheet(),sheetSave:()=>{if(curSave)curSave();},
+  tab:d=>{tab=d.v;render();scrollTo(0,0);},toggleMine:()=>{onlyMine=!onlyMine;render();},
+  whoAmI:()=>pushSheet(whoAmI()),
+  pickMe:d=>{setMe(d.id);toast('Ты — '+mem(d.id).name);stack.length=0;$('#sheet').classList.remove('open');render();},
+  addMe:()=>{const v=$('#meName').value.trim();if(!v)return;const ids=addNames(v);if(ids[0]){setMe(ids[0]);stack.length=0;$('#sheet').classList.remove('open');setTimeout(render,50);}},
+  addMember:()=>{const inp=$('#newName');const ids=addNames(inp.value);if(ids.length){inp.value='';toast(ids.length>1?'Добавлено: '+ids.length:'Добавлен');setTimeout(()=>{const i=$('#newName');if(i)i.focus();},60);}},
+  editMember:d=>pushSheet(memberForm(d.id)),
+  delMember:d=>{if(!confirm('Удалить участника?'))return;const patch={['members.'+d.id]:DEL};moments().forEach(m=>{if((m.members||[]).includes(d.id))patch['moments.'+m.id+'.members']=m.members.filter(x=>x!==d.id);});T.update(patch);stack.length=0;closeSheet();},
+  addExp:()=>{ed=null;pushSheet(expForm(null));},editExp:d=>{ed=null;pushSheet(expForm(d.id));},
+  delExp:d=>{if(!confirm('Удалить этот расход?'))return;T.update({['expenses.'+d.id]:DEL});ed=null;closeSheet();toast('Удалено');},
+  pickCat:d=>{ed.cat=d.v;$$('#ecat .chip').forEach(c=>c.classList.toggle('on',c.dataset.v===d.v));},
+  pickPayer:d=>{ed.payer=d.id;$$('#epay .chip').forEach(c=>c.classList.toggle('on',c.dataset.id===d.id));},
+  pickMom:d=>{ed.moment=d.id;const m=trip.moments[d.id];ed.members=new Set(m.members||[]);$$('#emom .chip').forEach(c=>c.classList.toggle('on',c.dataset.id===d.id));drawParts();},
+  pickMode:d=>{ed.mode=d.v;$$('#emode .chip').forEach(c=>c.classList.toggle('on',c.dataset.v===d.v));drawParts();},
+  togP:d=>{if(ed.members.has(d.id))ed.members.delete(d.id);else ed.members.add(d.id);drawParts();},
+  wPlus:d=>{ed.w[d.id]=(+ed.w[d.id]||1)+1;drawParts();},wMinus:d=>{ed.w[d.id]=Math.max(1,(+ed.w[d.id]||1)-1);drawParts();},
+  newMoment:()=>pushSheet(momentForm(null)),editMoment:d=>pushSheet(momentForm(d.id)),
+  togM:(d,el)=>{el.classList.toggle('off');const on=!el.classList.contains('off');const ck=el.querySelector('.ck');ck.classList.toggle('on',on);ck.textContent=on?'✓':'';},
+  togAllM:d=>{$$('#mlist .prow').forEach(el=>{const on=d.v==='1';el.classList.toggle('off',!on);const ck=el.querySelector('.ck');ck.classList.toggle('on',on);ck.textContent=on?'✓':'';});},
+  delMoment:d=>{const n=expenses().filter(e=>e.moment===d.id).length;if(!confirm(n?'В этапе '+n+' расход(ов). Они останутся, но без этапа. Удалить этап?':'Удалить этап?'))return;const p={['moments.'+d.id]:DEL};if(trip.cur===d.id)p.cur=DEL;T.update(p);closeSheet();},
+  markPaid:d=>{const s=settle()[+d.k];if(!s)return;if(!confirm(mem(s.from).name+' перевёл '+som(s.amount)+' → '+mem(s.to).name+'?'))return;T.update({['transfers.'+uid()]:{from:s.from,to:s.to,amount:s.amount,created:Date.now(),by:meId()||''}});toast('Отмечено ✓');},
+  delTransfer:d=>{if(!confirm('Отменить этот перевод?'))return;T.update({['transfers.'+d.id]:DEL});},
+  addTransfer:()=>pushSheet(transferForm()),
+  pickTf:d=>$$('#tf .chip').forEach(c=>c.classList.toggle('on',c.dataset.id===d.id)),pickTt:d=>$$('#tt .chip').forEach(c=>c.classList.toggle('on',c.dataset.id===d.id)),
+  personInfo:d=>pushSheet(personInfo(d.id)),
+  shareSum:()=>{const st=settle(),{b,paid}=balances();const L=['🤝 '+trip.name,'Всего потратили: '+som(total()),''];
+    if(st.length){L.push('Кто кому переводит:');st.forEach(s=>L.push('• '+mem(s.from).name+' → '+mem(s.to).name+': '+som(s.amount)));}else L.push('Все в расчёте 🎉');
+    L.push('','Кто сколько потратил:');members().forEach(m=>L.push('• '+m.name+': '+nf.format(Math.round(paid[m.id]))));share(L.join('\n'),tripUrl());},
+  shareLink:()=>share('Записываем общие расходы «'+trip.name+'» здесь — открой, выбери себя и добавляй, что оплатил:',tripUrl()),
+  renameTrip:()=>{const n=prompt('Название',trip.name);if(n&&n.trim())T.update({name:n.trim()});},
+  forgetTrip:()=>{if(!confirm('Убрать поездку из вашего списка? По ссылке её всё равно можно будет открыть.'))return;const my=LS.get('sk_trips',{});delete my[tripId];LS.set('sk_trips',my);go(null);},
+};
+document.addEventListener('click',ev=>{const el=ev.target.closest('[data-act]');if(!el)return;const f=A[el.dataset.act];if(f){ev.preventDefault();f(el.dataset,el);}});
+document.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.id==='newName'){ev.preventDefault();A.addMember();}if(ev.key==='Enter'&&ev.target.id==='meName'){ev.preventDefault();A.addMe();}});
+addEventListener('popstate',route);addEventListener('hashchange',route);
+route();
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
